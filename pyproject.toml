@@ -1,0 +1,27 @@
+[project]
+name = "highlight_video_maker"
+version = "0.0.1"
+authors = [{ name = "Micha Albert", email = "micha@2231.tech" }]
+description = "A utility to take several video inputs, take the loudest points, and create a compilation of them"
+readme = "README.md"
+requires-python = ">=3.12"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: POSIX :: Linux",
+]
+license = "MIT"
+license-files = ["LICENSE"]
+dependencies = [
+    "click"
+]
+
+[project.scripts]
+highlight-video-maker = "highlight_video_maker.main:cli"
+
+[project.urls]
+Homepage = "https://github.com/MichaByte/highlight-video-maker"
+Issues = "https://github.com/MichaByte/highlight-video-maker/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
