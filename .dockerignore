@@ -1,5 +1,7 @@
 .mypy_cache
 .vscode
+.github
+.git
 __pycache__
 .venv
 dist
