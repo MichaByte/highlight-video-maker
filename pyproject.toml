@@ -1,6 +1,6 @@
 [project]
 name = "highlight_video_maker"
-version = "0.0.1"
+version = "0.0.2"
 authors = [{ name = "Micha Albert", email = "micha@2231.tech" }]
 description = "A utility to take several video inputs, take the loudest points, and create a compilation of them"
 readme = "README.md"

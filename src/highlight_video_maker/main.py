@@ -20,7 +20,7 @@ logger: Logger
     default="INFO",
     type=str,
     required=False,
-    metavar="Sets the logging verbosity. Choose between"
+    help="Sets the logging verbosity. Choose between"
     "DEBUG, INFO (default), WARNING, ERROR, or CRITICAL."
     "Can be uppercase or lowercase.",
 )
@@ -119,12 +119,12 @@ def get_amplitude_of_segment(clip: Path):
 @cli.command()
 @click.option(
     "--input-dir",
-    metavar="The input directory to get the source videos from.",
+    help="The input directory to get the source videos from.",
     type=click.Path(exists=True, resolve_path=True, path_type=Path),
 )
 @click.option(
     "--watermark-image",
-    metavar="The path of the watermark image "
+    help="The path of the watermark image "
     "to overlay over the final output. "
     "It must exist. "
     "It will not be scaled, so it should be "
@@ -133,14 +133,14 @@ def get_amplitude_of_segment(clip: Path):
 )
 @click.option(
     "--horiz-output-file",
-    metavar="The path to output the final video to. "
+    help="The path to output the final video to. "
     "It should not exist and must either be an absolute path "
     'or start with "./".',
     type=click.Path(exists=False, resolve_path=True, path_type=Path),
 )
 @click.option(
     "--vert-output-file",
-    metavar="The path to output the final video to. "
+    help="The path to output the final video to. "
     "It should not exist and must either be an absolute path "
     'or start with "./".',
     type=click.Path(exists=False, resolve_path=True, path_type=Path),
