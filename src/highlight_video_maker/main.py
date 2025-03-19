@@ -235,7 +235,7 @@ def run(
     -filter_complex "
     [1]format=rgba,colorchannelmixer=aa=0.5[logo];
     [0][logo]overlay=W-w-30:H-h-30:format=auto,format=yuv420p
-    " -c:a copy "{horiz_output_file}"''',
+    " -c:a aac -b:a 128k "{horiz_output_file}"''',
         shell=True,
         check=True,
         capture_output=True,
@@ -252,7 +252,7 @@ def run(
     [copy]scale=-1:ih*(4/3)*(4/3),crop=w=ih*9/16,gblur=sigma=17:steps=5[blurred];
     [blurred][original]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2[vert];
     [vert][1]overlay=(W-w)/2:H-h-30,format=yuv420p
-    " -c:a copy "{vert_output_file}"''',
+    " -c:a aac -b:a 128k "{vert_output_file}"''',
         shell=True,
         check=True,
         capture_output=True,
