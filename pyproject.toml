@@ -1,8 +1,8 @@
 [project]
 name = "highlight_video_maker"
-version = "0.0.2"
+version = "0.1.0"
 authors = [{ name = "Micha Albert", email = "micha@2231.tech" }]
-description = "A utility to take several video inputs, take the loudest points, and create a compilation of them"
+description = "A utility to take several video inputs, take the loudest points, and create a compilation of them with smooth transitions"
 readme = "README.md"
 requires-python = ">=3.12"
 classifiers = [
