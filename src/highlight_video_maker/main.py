@@ -60,6 +60,22 @@ MAX_SEGMENT_LENGTH = 9
 MAX_SEGMENT_PADDING = 6
 
 
+def run_in_bash(
+    cmd: str,
+    capture_output=False,
+    check=False,
+    text=False,
+    shell=False,
+):
+    return subprocess.run(
+        f"/usr/bin/bash -c '{cmd}'",
+        capture_output=capture_output,
+        check=check,
+        text=text,
+        shell=shell,
+    )
+
+
 def nonrepeating_generator(source, desired_length):
     """
     Creates a generator that yields one item from `source`
@@ -98,7 +114,7 @@ def get_video_duration(file: Path):
     logger.debug(f"Getting file length for {file}")
     try:
         return float(
-            subprocess.run(
+            run_in_bash(
                 f'ffprobe -v error -show_entries format=duration -of csv=p=0 "{file}"',
                 capture_output=True,
                 check=True,
@@ -132,7 +148,7 @@ def split_video_segment(
 ):
     """Splits a video into segments using ffmpeg."""
     logger.debug(f"Splitting {file_name} - segment {idx}")
-    subprocess.run(
+    run_in_bash(
         f"ffmpeg -nostats -loglevel 0  -y -ss {seconds_to_timestamp(sum(segment_lengths[:idx]))} "
         f'-to {seconds_to_timestamp(sum(segment_lengths[:idx]) + segment_lengths[idx])} -i "{file_name}" '
         f'-c copy "{Path(out_dir, file_name.stem, str(idx) + file_name.suffix)}"',
@@ -144,7 +160,7 @@ def split_video_segment(
 def get_amplitude_of_segment(clip: Path):
     """Extracts the mean audio amplitude of a video segment."""
     logger.debug(f"Analyzing amplitude for clip: {clip}")
-    res = subprocess.run(
+    res = run_in_bash(
         f'ffmpeg -i "{Path(CACHE_DIR, clip)}" -filter:a volumedetect -f null -',
         shell=True,
         check=True,
@@ -230,7 +246,7 @@ def run_ffmpeg_command(
     # filter so that FFmpeg knows where to map the video output.
     # TODO: remove that mess and put the same logic in
     # build_transition_filters_dynamic
-    subprocess.run(cmd, shell=True, check=True, capture_output=True)
+    run_in_bash(cmd, shell=True, check=True, capture_output=True)
 
 
 @cli.command()
@@ -386,7 +402,7 @@ def run(
     logger.info("Creating horizontal video...")
 
     # Horizontal Pipeline: Take unmarked file and add a semi‑transparent watermark.
-    subprocess.run(
+    run_in_bash(
         f'''ffmpeg -y {decode_options} -i "{CACHE_DIR / "out-unmarked.mp4"}" -i "{watermark_image}" \
         -filter_complex " \
         [1]format=rgba,colorchannelmixer=aa=0.5[logo]; \
@@ -401,7 +417,7 @@ def run(
 
     # Vertical Pipeline: Crop (zoom), split & blur unmarked file for a vertical aspect ratio,
     # then overlay a centered, opaque watermark at the bottom.
-    subprocess.run(
+    run_in_bash(
         f'''ffmpeg -y {decode_options} -i "{CACHE_DIR / "out-unmarked.mp4"}" -i "{watermark_image}" \
         -filter_complex " \
         [0]crop=3/4*in_w:in_h[zoomed]; \
